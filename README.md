@@ -153,6 +153,14 @@ git config user.email "..."
 git config core.sshCommand "ssh -i ~/.ssh/gitprofile_<name> -o IdentitiesOnly=yes"
 ```
 
+## Fun fact
+
+This project was built as an experiment in mobile programming — just for fun
+while waiting for food to be prepared.
+
+Setup: Samsung S25 + Termux + Claude Code + Rokid Max 2 AR glasses + voice
+control.
+
 ## License
 
 MIT
