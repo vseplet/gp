@@ -16,11 +16,18 @@ CLI-утилита для управления несколькими Git-про
 Требуется [Deno](https://deno.land/).
 
 ```bash
-# Клонировать репозиторий
+# Установка напрямую с GitHub
+deno install -g -n gp -r --allow-read --allow-write --allow-run --allow-env \
+  https://raw.githubusercontent.com/vseplet/gp/main/mod.ts
+```
+
+Флаг `-r` (или `--reload`) отключает кэширование и загружает актуальную версию.
+
+Альтернативно, из локального клона:
+
+```bash
 git clone https://github.com/vseplet/gp.git
 cd gp
-
-# Установить глобально
 deno task install
 ```
 
