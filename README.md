@@ -16,14 +16,15 @@ CLI-утилита для управления несколькими Git-про
 Требуется [Deno](https://deno.land/).
 
 ```bash
-# Установка напрямую с GitHub
+# Установка напрямую с GitHub (через jsDelivr CDN)
 deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
-  --import-map=https://raw.githubusercontent.com/vseplet/gp/main/import_map.json \
-  https://raw.githubusercontent.com/vseplet/gp/main/mod.ts
+  --import-map=https://cdn.jsdelivr.net/gh/vseplet/gp@main/import_map.json \
+  https://cdn.jsdelivr.net/gh/vseplet/gp@main/mod.ts
 ```
 
-Флаг `-r` (или `--reload`) отключает кэширование и загружает актуальную версию.
-Флаг `--import-map` указывает на карту зависимостей.
+- `-r` — перезагрузить кэш
+- `-f` — перезаписать существующую установку
+- `--import-map` — карта зависимостей
 
 Альтернативно, из локального клона:
 
