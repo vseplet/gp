@@ -1,24 +1,22 @@
-# gp — Git Profile Manager
+# Git Profile Manager
 
-CLI-утилита для управления несколькими Git-профилями. Позволяет легко
-переключаться между рабочим и личным аккаунтами GitHub/GitLab, используя разные
-SSH-ключи и идентификаторы.
+> **gp** — CLI tool for managing multiple Git identities
 
-## Зачем это нужно?
+## Why?
 
-Если у вас несколько Git-аккаунтов (личный, рабочий, для open-source), то при
-работе с репозиториями возникают проблемы:
+If you have multiple GitHub/GitLab accounts (personal, work, open-source), you
+know the pain:
 
-- Коммиты уходят не от того имени/email
-- SSH-ключи конфликтуют между аккаунтами
-- Приходится вручную менять конфиг для каждого репозитория
+- Commits go out with the wrong name/email
+- SSH keys conflict between accounts
+- Manual config changes for every repo
 
-**gp** решает эти проблемы — создаёте профили один раз, затем просто указываете
-нужный при клонировании или применяете к существующему репозиторию.
+**gp** fixes this. Create profiles once, then just pick one when cloning or
+apply to existing repos.
 
-## Установка
+## Install
 
-Требуется [Deno](https://deno.land/).
+Requires [Deno](https://deno.land/).
 
 ```bash
 deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
@@ -26,11 +24,7 @@ deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
   https://cdn.jsdelivr.net/gh/vseplet/gp@main/mod.ts
 ```
 
-- `-r` — перезагрузить кэш
-- `-f` — перезаписать существующую установку
-- `--import-map` — карта зависимостей
-
-Альтернативно, из локального клона:
+Or from source:
 
 ```bash
 git clone https://github.com/vseplet/gp.git
@@ -38,70 +32,71 @@ cd gp
 deno task install
 ```
 
-## Использование
+## Usage
 
-### Создание профиля
+### Create a profile
 
 ```bash
 gp profile add work
 ```
 
-Утилита запросит имя и email, затем автоматически сгенерирует SSH-ключ и покажет
-публичный ключ для добавления в GitHub/GitLab.
+You'll be prompted for name and email. An SSH key is generated automatically —
+add the public key to GitHub/GitLab.
 
-### Список профилей
+### List profiles
 
 ```bash
 gp profile list
 ```
 
-### Клонирование с профилем
+### Clone with a profile
 
 ```bash
-# С указанием профиля
 gp clone git@github.com:user/repo.git -p work
+```
 
-# Без указания — появится интерактивный выбор
+Or without `-p` for interactive selection:
+
+```bash
 gp clone git@github.com:user/repo.git
 ```
 
-Репозиторий будет склонирован с использованием SSH-ключа профиля, а локальный
-конфиг автоматически настроен.
+The repo is cloned using the profile's SSH key and configured automatically.
 
-### Применение профиля к существующему репозиторию
+### Apply profile to existing repo
 
 ```bash
-cd existing-repo
+cd my-repo
 gp use work
 ```
 
-### Удаление профиля
+### Remove a profile
 
 ```bash
 gp profile remove work
 
-# Сохранить SSH-ключ при удалении
+# Keep the SSH key
 gp profile remove work --keep-key
 ```
 
-### Просмотр деталей профиля
+### Show profile details
 
 ```bash
 gp profile show work
 ```
 
-## Как это работает
+## How it works
 
-Каждый профиль содержит:
+Each profile stores:
 
-- **name** — имя для коммитов
-- **email** — email для коммитов
-- **sshKey** — путь к SSH-ключу
+- **name** — Git commit author name
+- **email** — Git commit author email
+- **sshKey** — Path to SSH private key
 
-Профили хранятся в `~/.gitprofiles.json`, SSH-ключи — в
+Profiles are saved in `~/.gitprofiles.json`. SSH keys are stored in
 `~/.ssh/gitprofile_<name>`.
 
-При применении профиля устанавливаются локальные настройки репозитория:
+When you apply a profile, gp sets local repo config:
 
 ```bash
 git config user.name "..."
@@ -109,6 +104,6 @@ git config user.email "..."
 git config core.sshCommand "ssh -i ~/.ssh/gitprofile_<name> -o IdentitiesOnly=yes"
 ```
 
-## Лицензия
+## License
 
 MIT
