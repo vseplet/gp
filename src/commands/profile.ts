@@ -1,7 +1,12 @@
 import { Command } from "@cliffy/command";
-import { Input, Confirm } from "@cliffy/prompt";
-import { addProfile, listProfiles, removeProfile } from "../config.ts";
-import { generateSshKey, readPublicKey, deleteSshKey, getSshKeyPath } from "../ssh.ts";
+import { Confirm, Input } from "@cliffy/prompt";
+import { addProfile, listProfiles, removeProfile } from "@/config.ts";
+import {
+  deleteSshKey,
+  generateSshKey,
+  getSshKeyPath,
+  readPublicKey,
+} from "@/ssh.ts";
 
 const addCommand = new Command()
   .description("Add a new git profile")
@@ -18,7 +23,7 @@ const addCommand = new Command()
     });
 
     console.log("\nGenerating SSH key...");
-    const { publicKey: publicKeyPath } = await generateSshKey(name, email);
+    await generateSshKey(name, email);
 
     const sshKeyPath = getSshKeyPath(name);
 
@@ -82,7 +87,9 @@ const removeCommand = new Command()
         await deleteSshKey(name);
         console.log(`SSH key deleted: ${profile.sshKey}`);
       } catch (error) {
-        console.warn(`Warning: Could not delete SSH key: ${(error as Error).message}`);
+        console.warn(
+          `Warning: Could not delete SSH key: ${(error as Error).message}`,
+        );
       }
     }
 

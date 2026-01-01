@@ -1,4 +1,4 @@
-import { join } from "jsr:@std/path@1";
+import { join } from "@std/path";
 
 function getSshDir(): string {
   const home = Deno.env.get("HOME");
@@ -14,7 +14,7 @@ export function getSshKeyPath(profileName: string): string {
 
 export async function generateSshKey(
   profileName: string,
-  email: string
+  email: string,
 ): Promise<{ privateKey: string; publicKey: string }> {
   const keyPath = getSshKeyPath(profileName);
   const publicKeyPath = `${keyPath}.pub`;
@@ -42,10 +42,14 @@ export async function generateSshKey(
   // Generate SSH key using ssh-keygen
   const command = new Deno.Command("ssh-keygen", {
     args: [
-      "-t", "ed25519",
-      "-C", email,
-      "-f", keyPath,
-      "-N", "", // empty passphrase
+      "-t",
+      "ed25519",
+      "-C",
+      email,
+      "-f",
+      keyPath,
+      "-N",
+      "", // empty passphrase
     ],
     stdout: "piped",
     stderr: "piped",
@@ -95,6 +99,8 @@ export async function deleteSshKey(profileName: string): Promise<void> {
   }
 
   if (errors.length > 0) {
-    throw new Error(`Failed to delete SSH keys: ${errors.map(e => e.message).join(", ")}`);
+    throw new Error(
+      `Failed to delete SSH keys: ${errors.map((e) => e.message).join(", ")}`,
+    );
   }
 }

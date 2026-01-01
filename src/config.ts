@@ -1,4 +1,4 @@
-import { join } from "jsr:@std/path@1";
+import { join } from "@std/path";
 
 export interface Profile {
   name: string;
@@ -43,7 +43,10 @@ export async function getProfile(name: string): Promise<Profile | undefined> {
   return config.profiles[name];
 }
 
-export async function addProfile(name: string, profile: Profile): Promise<void> {
+export async function addProfile(
+  name: string,
+  profile: Profile,
+): Promise<void> {
   const config = await loadConfig();
   if (config.profiles[name]) {
     throw new Error(`Profile "${name}" already exists`);

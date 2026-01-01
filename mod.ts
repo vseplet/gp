@@ -1,7 +1,7 @@
 import { Command } from "@cliffy/command";
-import { profileCommand } from "./src/commands/profile.ts";
-import { cloneCommand } from "./src/commands/clone.ts";
-import { useCommand } from "./src/commands/use.ts";
+import { profileCommand } from "@/commands/profile.ts";
+import { cloneCommand } from "@/commands/clone.ts";
+import { useCommand } from "@/commands/use.ts";
 
 const cmd = new Command()
   .name("gp")

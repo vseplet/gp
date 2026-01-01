@@ -1,7 +1,7 @@
 import { Command } from "@cliffy/command";
 import { Select } from "@cliffy/prompt";
-import { getProfile, listProfiles } from "../config.ts";
-import { basename } from "jsr:@std/path@1";
+import { getProfile, listProfiles } from "@/config.ts";
+import { basename } from "@std/path";
 
 export const cloneCommand = new Command()
   .description("Clone a repository with a specific git profile")
@@ -73,7 +73,9 @@ export const cloneCommand = new Command()
     await runGitConfig(targetDir, "user.email", profile.email);
     await runGitConfig(targetDir, "core.sshCommand", sshCommand);
 
-    console.log(`\nRepository cloned and configured with profile "${profileName}".`);
+    console.log(
+      `\nRepository cloned and configured with profile "${profileName}".`,
+    );
   });
 
 function extractRepoName(url: string): string {
@@ -101,7 +103,11 @@ function extractRepoName(url: string): string {
   return name || "repo";
 }
 
-async function runGitConfig(dir: string, key: string, value: string): Promise<void> {
+async function runGitConfig(
+  dir: string,
+  key: string,
+  value: string,
+): Promise<void> {
   const process = new Deno.Command("git", {
     args: ["-C", dir, "config", key, value],
     stdout: "piped",

@@ -1,5 +1,5 @@
 import { Command } from "@cliffy/command";
-import { getProfile } from "../config.ts";
+import { getProfile } from "@/config.ts";
 
 export const useCommand = new Command()
   .description("Apply a git profile to the current repository")
