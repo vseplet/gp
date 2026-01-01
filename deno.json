@@ -1,0 +1,13 @@
+{
+  "name": "@gp/git-profiles",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "tasks": {
+    "dev": "deno run --allow-read --allow-write --allow-run --allow-env mod.ts",
+    "install": "deno install -g -n gp --allow-read --allow-write --allow-run --allow-env mod.ts"
+  },
+  "imports": {
+    "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.7",
+    "@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0-rc.7"
+  }
+}
