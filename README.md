@@ -16,7 +16,6 @@ CLI-утилита для управления несколькими Git-про
 Требуется [Deno](https://deno.land/).
 
 ```bash
-# Установка напрямую с GitHub (через jsDelivr CDN)
 deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
   --import-map=https://cdn.jsdelivr.net/gh/vseplet/gp@main/import_map.json \
   https://cdn.jsdelivr.net/gh/vseplet/gp@main/mod.ts
