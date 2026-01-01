@@ -9,7 +9,7 @@ import { useCommand } from "@/commands/use.ts";
 
 const cmd = new Command()
   .name("gp")
-  .version("0.1.0")
+  .version("0.2.0")
   .description("Git profile manager - manage multiple git identities with ease")
   .action(function () {
     this.showHelp();
