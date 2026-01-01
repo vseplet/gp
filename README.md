@@ -16,7 +16,14 @@ apply to existing repos.
 
 ## Install
 
-Requires [Deno](https://deno.land/).
+```bash
+curl -fsSL https://cdn.jsdelivr.net/gh/vseplet/gp@main/install.sh | bash
+```
+
+This will install [Deno](https://deno.land/) (if not present) and gp.
+
+<details>
+<summary>Manual installation</summary>
 
 ```bash
 deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
@@ -24,7 +31,9 @@ deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
   https://cdn.jsdelivr.net/gh/vseplet/gp@main/mod.ts
 ```
 
-Or from source:
+</details>
+
+From source:
 
 ```bash
 git clone https://github.com/vseplet/gp.git
