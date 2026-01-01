@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+REPO="vseplet/gp"
+
 echo "Installing Git Profile Manager (gp)..."
 echo
 
@@ -22,11 +24,24 @@ fi
 echo "Deno version: $(deno --version | head -1)"
 echo
 
+# Get latest version from GitHub
+echo "Fetching latest version..."
+LATEST=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" 2>/dev/null | grep '"tag_name"' | sed 's/.*"tag_name": "\(.*\)".*/\1/' || echo "")
+
+if [ -z "$LATEST" ]; then
+    echo "No releases found, using main branch..."
+    VERSION="main"
+else
+    echo "Latest version: $LATEST"
+    VERSION="$LATEST"
+fi
+
 # Install gp
-echo "Installing gp..."
+echo
+echo "Installing gp@${VERSION}..."
 deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
-    --import-map=https://cdn.jsdelivr.net/gh/vseplet/gp@main/import_map.json \
-    https://cdn.jsdelivr.net/gh/vseplet/gp@main/mod.ts
+    --import-map="https://cdn.jsdelivr.net/gh/${REPO}@${VERSION}/import_map.json" \
+    "https://cdn.jsdelivr.net/gh/${REPO}@${VERSION}/mod.ts"
 
 echo
 echo "Done! Run 'gp --help' to get started."

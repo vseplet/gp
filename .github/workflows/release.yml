@@ -1,0 +1,140 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Get current version
+        id: current
+        run: |
+          VERSION=$(grep '"version"' deno.json | head -1 | sed 's/.*"version": "\(.*\)".*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Analyze commits
+        id: analyze
+        run: |
+          # Get the latest tag or use initial commit
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$LATEST_TAG" ]; then
+            COMMITS=$(git log --oneline)
+          else
+            COMMITS=$(git log ${LATEST_TAG}..HEAD --oneline)
+          fi
+
+          echo "Commits since last tag:"
+          echo "$COMMITS"
+
+          # Determine bump type
+          BUMP="none"
+
+          if echo "$COMMITS" | grep -qiE "^[a-f0-9]+ (feat|feature)(\(.+\))?!:|BREAKING CHANGE"; then
+            BUMP="major"
+          elif echo "$COMMITS" | grep -qiE "^[a-f0-9]+ (feat|feature)(\(.+\))?:"; then
+            BUMP="minor"
+          elif echo "$COMMITS" | grep -qiE "^[a-f0-9]+ (fix|perf|refactor)(\(.+\))?:"; then
+            BUMP="patch"
+          fi
+
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+
+      - name: Calculate new version
+        id: version
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          CURRENT="${{ steps.current.outputs.version }}"
+          BUMP="${{ steps.analyze.outputs.bump }}"
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+
+          case $BUMP in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update version in files
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new }}"
+
+          # Update deno.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"$NEW_VERSION\"/" deno.json
+
+          # Update mod.ts
+          sed -i "s/.version(\".*\")/.version(\"$NEW_VERSION\")/" mod.ts
+
+          echo "Updated version to $NEW_VERSION"
+
+      - name: Generate changelog
+        id: changelog
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$LATEST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" | head -50)
+          else
+            COMMITS=$(git log ${LATEST_TAG}..HEAD --pretty=format:"- %s (%h)")
+          fi
+
+          # Write to file for multiline support
+          echo "$COMMITS" > /tmp/changelog.txt
+
+          echo "Changelog:"
+          cat /tmp/changelog.txt
+
+      - name: Commit and tag
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add deno.json mod.ts
+          git commit -m "chore: release v${NEW_VERSION}"
+          git tag -a "v${NEW_VERSION}" -m "Release v${NEW_VERSION}"
+
+          git push
+          git push --tags
+
+      - name: Create GitHub Release
+        if: steps.analyze.outputs.bump != 'none'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.new }}
+          name: v${{ steps.version.outputs.new }}
+          body_path: /tmp/changelog.txt
+          generate_release_notes: true

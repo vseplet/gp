@@ -17,7 +17,7 @@ apply to existing repos.
 ## Install
 
 ```bash
-curl -fsSL https://cdn.jsdelivr.net/gh/vseplet/gp@main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/vseplet/gp/main/install.sh | bash
 ```
 
 This will install [Deno](https://deno.land/) (if not present) and gp.
