@@ -117,6 +117,9 @@ const showCommand = new Command()
 
 export const profileCommand = new Command()
   .description("Manage git profiles")
+  .action(function () {
+    this.showHelp();
+  })
   .command("add", addCommand)
   .command("list", listCommand)
   .command("remove", removeCommand)
