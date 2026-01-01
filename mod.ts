@@ -1,6 +1,10 @@
 import { Command } from "@cliffy/command";
-import { profileCommand } from "@/commands/profile.ts";
+import { backupCommand } from "@/commands/backup.ts";
 import { cloneCommand } from "@/commands/clone.ts";
+import { doctorCommand } from "@/commands/doctor.ts";
+import { initCommand } from "@/commands/init.ts";
+import { profileCommand } from "@/commands/profile.ts";
+import { statusCommand } from "@/commands/status.ts";
 import { useCommand } from "@/commands/use.ts";
 
 const cmd = new Command()
@@ -12,6 +16,10 @@ const cmd = new Command()
   })
   .command("profile", profileCommand)
   .command("clone", cloneCommand)
-  .command("use", useCommand);
+  .command("use", useCommand)
+  .command("status", statusCommand)
+  .command("init", initCommand)
+  .command("doctor", doctorCommand)
+  .command("backup", backupCommand);
 
 await cmd.parse(Deno.args);

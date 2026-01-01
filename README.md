@@ -85,6 +85,46 @@ gp profile remove work --keep-key
 gp profile show work
 ```
 
+### Quick setup for current repo
+
+```bash
+cd my-repo
+gp init
+```
+
+Creates a new profile (or picks existing) and applies it to the current repo in
+one step.
+
+### Check current profile
+
+```bash
+gp status
+```
+
+Shows the git identity configured in the current repository and which profile it
+matches.
+
+### Health check
+
+```bash
+gp doctor
+```
+
+Verifies all profiles have valid SSH keys and proper permissions.
+
+### Backup and restore
+
+```bash
+# Export all profiles with SSH keys
+gp backup export ~/my-profiles.tar.gz
+
+# Import on another machine
+gp backup import ~/my-profiles.tar.gz
+
+# Overwrite existing profiles
+gp backup import ~/my-profiles.tar.gz --force
+```
+
 ## How it works
 
 Each profile stores:
