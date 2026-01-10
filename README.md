@@ -1,6 +1,6 @@
 # Git Profile Manager
 
-> **gp** — CLI tool for managing multiple Git identities
+> **gp** — tool for managing multiple git identities
 
 ## Why?
 
@@ -21,25 +21,6 @@ curl -fsSL https://raw.githubusercontent.com/vseplet/gp/main/install.sh | bash
 ```
 
 This will install [Deno](https://deno.land/) (if not present) and gp.
-
-<details>
-<summary>Manual installation</summary>
-
-```bash
-deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
-  --import-map=https://cdn.jsdelivr.net/gh/vseplet/gp@main/import_map.json \
-  https://cdn.jsdelivr.net/gh/vseplet/gp@main/mod.ts
-```
-
-</details>
-
-From source:
-
-```bash
-git clone https://github.com/vseplet/gp.git
-cd gp
-deno task install
-```
 
 ## Usage
 
@@ -79,47 +60,8 @@ cd my-repo
 gp use work
 ```
 
-### Remove a profile
-
-```bash
-gp profile remove work
-
-# Keep the SSH key
-gp profile remove work --keep-key
-```
-
-### Show profile details
-
-```bash
-gp profile show work
-```
-
-### Quick setup for current repo
-
-```bash
-cd my-repo
-gp init
-```
-
 Creates a new profile (or picks existing) and applies it to the current repo in
 one step.
-
-### Check current profile
-
-```bash
-gp status
-```
-
-Shows the git identity configured in the current repository and which profile it
-matches.
-
-### Health check
-
-```bash
-gp doctor
-```
-
-Verifies all profiles have valid SSH keys and proper permissions.
 
 ### Backup and restore
 

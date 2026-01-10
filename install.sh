@@ -41,7 +41,7 @@ echo
 echo "Installing gp@${VERSION}..."
 deno install -g -n gp -rf --allow-read --allow-write --allow-run --allow-env \
     --import-map="https://cdn.jsdelivr.net/gh/${REPO}@${VERSION}/import_map.json" \
-    "https://cdn.jsdelivr.net/gh/${REPO}@${VERSION}/mod.ts"
+    "https://cdn.jsdelivr.net/gh/${REPO}@${VERSION}/src/mod.ts"
 
 echo
 echo "Done! Run 'gp --help' to get started."

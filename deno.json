@@ -1,15 +1,15 @@
 {
   "name": "@gp/git-profiles",
   "version": "0.2.0",
-  "exports": "./mod.ts",
+  "exports": "./src/mod.ts",
   "tasks": {
-    "dev": "deno run --allow-read --allow-write --allow-run --allow-env mod.ts",
-    "install": "deno install -g -n gp --allow-read --allow-write --allow-run --allow-env mod.ts",
+    "dev": "deno run --allow-read --allow-write --allow-run --allow-env src/mod.ts",
+    "install": "deno install -g -n gp --allow-read --allow-write --allow-run --allow-env src/mod.ts",
     "test": "deno test --allow-read --allow-write --allow-run --allow-env",
     "lint": "deno lint",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
-    "check": "deno check mod.ts"
+    "check": "deno check src/mod.ts"
   },
   "imports": {
     "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.7",

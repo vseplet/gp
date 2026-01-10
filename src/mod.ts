@@ -12,7 +12,7 @@ const cmd = new Command()
   .version("0.2.0")
   .description("Git profile manager - manage multiple git identities with ease")
   .action(function () {
-    this.showHelp();
+    cmd.showHelp();
   })
   .command("profile", profileCommand)
   .command("clone", cloneCommand)
