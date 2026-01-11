@@ -5,6 +5,7 @@ import { doctorCommand } from "@/commands/doctor.ts";
 import { initCommand } from "@/commands/init.ts";
 import { profileCommand } from "@/commands/profile.ts";
 import { statusCommand } from "@/commands/status.ts";
+import { uiCommand } from "@/commands/ui.ts";
 import { useCommand } from "@/commands/use.ts";
 
 const cmd = new Command()
@@ -20,6 +21,7 @@ const cmd = new Command()
   .command("status", statusCommand)
   .command("init", initCommand)
   .command("doctor", doctorCommand)
-  .command("backup", backupCommand);
+  .command("backup", backupCommand)
+  .command("ui", uiCommand);
 
 await cmd.parse(Deno.args);
