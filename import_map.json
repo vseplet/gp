@@ -4,6 +4,8 @@
     "@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0-rc.7",
     "@std/path": "jsr:@std/path@1",
     "@std/assert": "jsr:@std/assert@1",
+    "@hono/hono": "jsr:@hono/hono",
+    "@vseplet/morph": "jsr:@vseplet/morph",
     "@/": "./src/"
   }
 }
